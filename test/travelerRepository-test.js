@@ -1,6 +1,6 @@
 import chai from 'chai';
 const expect = chai.expect;
-import { destinationsData, travelersData, tripsData } from './testData';
+import { travelersData } from './testData';
 import Traveler from '../src/Traveler';
 import TravelerRepository from '../src/TravelerRepository';
 

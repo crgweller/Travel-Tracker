@@ -6,8 +6,6 @@ import Trip from '../src/Trip';
 import TripRepository from '../src/TripRepository';
 import Traveler from '../src/Traveler';
 
-
-
 describe('Trip Repository Test', function() {
   const destinationRepository = new DestinationRepository();
   destinationRepository.loadDestinations(destinationsData)
