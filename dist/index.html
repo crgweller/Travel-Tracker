@@ -4,61 +4,61 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRAVEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+  <title>Travel Tracker</title>
 </head>
 <body>
   <main class="traveler-page" id="travelerPage">
 		<header class="header-container">
 			<img class="logo" src="./images/company.png" alt="travel company logo">
-			<button class="sign-out-button" id="signOutButton">Sign Out</button>
+			<button class="sign-out-button hidden" id="signOutButton">Sign Out</button>
 		</header>
-  
-		<main class="main-container "> 
+    <form id="loginForm" class="login">
+      <label for="nameInput">Username:</label>
+      <input type="text" name="name" placeholder="username" id="nameInput" required>
+      <label for="passwordInput">Password:</label>
+      <input type="password" name="password" placeholder="password" id="passwordInput" required>
+      <button>Login</button>
+      <p id="userNameError" class="userName-error"></p>
+      <p id="passwordError" class="password-error"></p>
+    </form>
+		<section class="main-container hidden"> 
 			<section class="dashboard-nav">
 				<nav class="button-section">
 					<button class="trip-button" id="allTripsButton" alt="all trips button">ALL TRIPS</button>
-					<button class="trip-button" id="upcomingTripsButton" alt="upcoming trips button">UPCOMING</button>
-					<button class="trip-button" id="presentTripsButton" alt="present trips button">PRESENT</button>
-					<button class="trip-button" id="pastTripsButton" alt="past trips button">PAST</button>
-					<button class="trip-button" id="pendingTripsButton" alt="pending trips button">PENDING</button>
 				</nav>
 				<section class="total-spent-section" id="totalSpentPerYear"></section>
 			</section>
 			<section class="dashboard-container">
-				<section class="trips-container">
-					<ul class="trips-data-section" id="allTripsData">ALL TRIPS
-					</ul>
-					<ul  class="trips-data-section hidden" id="upcomingTripsData">UPCOMING TRIPS
-					</ul>
-					<ul class="trips-data-section hidden" id="presentTripsData">PRESENT TRIPS
-					</ul>
-					<ul class="trips-data-section hidden" id="pastTripsData">PAST TRIPS
-					</ul>
-					<ul class="trips-data-section hidden" id="pendingTripsData">PENDING TRIPS
-					</ul>
-				</section>
+				<ul class="trips-container">
+					<li class="trips-data-section" id="allTripsData">ALL TRIPS</li>
+				</ul>
       <section class="new-trip-container">
         <article id="newTripArticle" class="newTrip-article">
-          <h1 id="userName"></h1>
           <h2>Start New Trip:</h2>
           <form id="tripForm" class="trip-form">
-            <label for="date">Date:</label>
-            <input id="dateInput" type="date" placeholder="yyyy/mm/dd" name="date" required>
-            <label for="duration">Trip Duration:</label>
-            <input id="durationInput" type="number" name="duration" placeholder="#" required>
-            <label for="numTravelers">Number of Travelers:</label>
-            <input id="numTravelersInput" type="number" name="numTravelers" placeholder="#" required>
+            <label for="dateInput">Date:</label>
+            <input id="dateInput" type="date" placeholder="yyyy/mm/dd" name="date" min="2023-01-17" required>
+            <label for="durationInput">Trip Duration:</label>
+            <input id="durationInput" type="number" name="duration" placeholder="# of days" min="1" max="365" 
+            oninput="validity.valid||(value=''); "required>
+            <label for="numTravelersInput">Number of Travelers:</label>
+            <input id="numTravelersInput" type="number" name="numTravelers" placeholder="# of Travelers (1-10)" 
+            min="1" max="10" oninput="validity.valid||(value='');" required>
             <label for="destinationsInput">Destination:</label>
             <select name="destinationsInput" id="destinationsInput" required>
             </select>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Book New Trip">
             <p id="errorNotice" class="error"></p>
             <button type="submit" class="trip-estimate" id="tripEstimate">Estimate Trip Cost</button>
             <p class="tripCostEstimateBox" id="tripCostEstimate"></p>
           </form>
         </article>
       </section>
-    </main> 
+    </section>
+  </main> 
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>

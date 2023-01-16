@@ -3,7 +3,6 @@
 import './images/company.png';
 import './css/styles.css';
 import Traveler from './Traveler';
-import Trip from './Trip';
 import { getAPIData, getOneAPIData, updateAPIData} from './API-calls';
 import TripRepository from './TripRepository';
 import DestinationRepository from './DestinationRepository';
@@ -11,24 +10,15 @@ import domUpdates from './domUpdates';
 
 //Query Selectors
 
-const allTripsButton = document.querySelector('#allTripsButton');
 const allTripsDisplay = document.querySelector('#allTripsData');
 const totalYearlyCost = document.querySelector('.total-spent-section');
 const tripForm = document.getElementById('tripForm');
 const destinationsInput = document.querySelector('#destinationsInput')
-const upcomingTripsButton = document.querySelector('#upcomingTripsButton')
-const presentTripsButton = document.querySelector('#presentTripsButton')
-const pastTripsButton = document.querySelector('#pastTripsButton')
-const pendingTripsButton = document.querySelector('#pendingTripsButton')
-const allTripsData = document.querySelector('allTripsData');
-const upcomingTripsData = document.querySelector('upcomingTripsData')
-const presentTripsData = document.querySelector('presentTripsData');
-const pastTripsData = document.querySelector('pastTripsData');
-const pendingTripsData = document.querySelector('pendingTripsData');
 const tripCostEstimate = document.querySelector('#tripEstimate');
 const durationInput = document.querySelector('#durationInput');
 const numTravelersInput = document.querySelector('#numTravelersInput');
-
+const loginForm = document.getElementById('loginForm');
+const signOutButton = document.getElementById('signOutButton')
 
 // Global Variables
 let traveler;
@@ -38,10 +28,12 @@ let user = 50
 
 //Page Load
 window.addEventListener('load', loadData)
-
+loginForm.addEventListener('submit', e => {
+  e.preventDefault()
+  login(e)
+})
 tripForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  console.log(e)
   addNewTrip(e)
   loadData()
 })
@@ -51,6 +43,11 @@ tripCostEstimate.addEventListener('click', (e) => {
   console.log('tripcostestimate listener', e)
   e.preventDefault()
   estimateTripCost(e)
+})
+
+signOutButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  domUpdates.signOut(e)
 })
 
 function loadData() {
@@ -110,11 +107,31 @@ function estimateTripCost() {
   const destinationID = destinationRepository.findDestByName(destinationsInput.value)
   const flightCost = destinationRepository.findFlightCost(destinationID) * (numTravelersInput.value)
   const lodgingCost = destinationRepository.findLodgingCost(destinationID) * (numTravelersInput.value) * (durationInput.value)
-  const total = (flightCost + lodgingCost) * 1.1;   
+  const total = Math.round((flightCost + lodgingCost) * 1.1);
+  if (flightCost && lodgingCost) {   
   domUpdates.estimatedTripCost(total)
+  } else
+    document.getElementById('tripCostEstimate').innerHTML = "Please enter trip duration and number of guests."
 }
 
 
+function login(e) {
+  document.getElementById('userNameError').innerHTML = ""
+  document.getElementById('passwordError').innerHTML = ""
+  
+  if (e.target[0].value !== 'traveler50') {
+    document.getElementById('userNameError').innerHTML = "Invalid Username"
+    return false
+  } else if (e.target[1].value !== 'travel') {
+    document.getElementById('passwordError').innerHTML = "Invalid Password"
+    return false
+  } else {
+    loginForm.classList.add('hidden')
+    document.querySelector('.main-container').classList.remove('hidden')
+    document.querySelector('.sign-out-button').classList.remove('hidden')
+    loginForm.reset()
+  }
+}
 
 
 

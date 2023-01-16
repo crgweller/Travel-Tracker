@@ -3,7 +3,7 @@ import TripRepository from "./TripRepository"
 let domUpdates = {
 
 updateTripInfo(trip, destinationRepository) {  
-const destination = destinationRepository.findByDestID(trip.destinationID)
+const destination = destinationRepository.findDestObject(trip.destinationID)
 	return `<article class="trip-row">
     <p class="img-dom-card"><img class= "trip-image" src="${destination.image.url}" alt="${destination.image.alt}"></p>
     <p class="trip-destination trip-card"> Destination: ${destination.destination} </p>
@@ -14,16 +14,25 @@ const destination = destinationRepository.findByDestID(trip.destinationID)
 	</article>`
   },
 
-  updateTotalSpentPerYear(totalSpent) {
-    return `<p>Your total trip expenses for this year are $${totalSpent}.</p>`
+updateTotalSpentPerYear(totalSpent) {
+    return totalSpent ? `<p>Your total trip expenses for 2022 were $${totalSpent.toLocaleString("en-US")}.</p>` 
+    : 'You did not have any travel expenses in 2022.'
   },
 
-  destinationsInput(destinationRepository) {
-    destinationRepository.allDestinations.forEach(destination => destinationsInput.innerHTML += `<option value="${destination.destination}">${destination.destination}</option>`)
+destinationsInput(destinationRepository) {
+    destinationRepository.allDestinations.forEach(destination => destinationsInput.innerHTML 
+      += `<option value="${destination.destination}">${destination.destination}</option>`)
 },
 
 estimatedTripCost(total) {
-  tripCostEstimate.innerText = `Estimated Trip Cost: $${total}`
+  tripCostEstimate.innerText = `Estimated Trip Cost: $${total.toLocaleString("en-US")}, 
+  which includes an agent fee of $${Math.round(total * .090909).toLocaleString("en-US")}.`
+},
+
+signOut() {
+  loginForm.classList.remove('hidden')
+  document.querySelector('.main-container').classList.add('hidden')
+  document.querySelector('.sign-out-button').classList.add('hidden')
 },
 
 }
