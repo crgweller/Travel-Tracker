@@ -15,6 +15,8 @@ describe('Trip Repository Test', function() {
 
   const traveler = new Traveler(travelersData[0])
 
+  const travelerTwo = new Traveler(travelersData[1])
+
     it("should be a function", function () {
       expect(TripRepository).to.be.a("function");
     });
@@ -40,6 +42,10 @@ describe('Trip Repository Test', function() {
 
     it("should calculate the total cost of annual trips for a user", function () {
       expect(tripRepository.yearlyCost(destinationRepository, traveler)).to.equal(6435)
+    });
+
+    it("should return a yearly cost of zero if there are no traveler trips for 2022", function () {
+      expect(tripRepository.yearlyCost(destinationRepository, travelerTwo)).to.equal(0)
     });
 
 })
