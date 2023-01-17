@@ -17,7 +17,7 @@ class Trip {
     const totalFlightCost = destination.flightCost * this.travelers
     return Math.round((totalLodgingCost + totalFlightCost) * 1.1)
   }
-
+	
 }
 
 export default Trip;

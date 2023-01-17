@@ -1,4 +1,3 @@
-// fetch GET
 const getAPIData = async (dataType) => {
 	return fetch(`http://localhost:3001/api/v1/${dataType}`)
 			.then(response => response.json())
