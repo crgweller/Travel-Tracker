@@ -28,6 +28,7 @@ class DestinationRepository {
 			return destination.destination === name;
 		}).id
   }
+  
 }
 
 export default DestinationRepository;

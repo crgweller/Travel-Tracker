@@ -16,6 +16,7 @@ const tripForm = document.getElementById('tripForm');
 const destinationsInput = document.querySelector('#destinationsInput')
 const tripCostEstimate = document.querySelector('#tripEstimate');
 const durationInput = document.querySelector('#durationInput');
+const dateInput = document.querySelector('#dateInput');
 const numTravelersInput = document.querySelector('#numTravelersInput');
 const loginForm = document.getElementById('loginForm');
 const signOutButton = document.getElementById('signOutButton')
@@ -40,7 +41,6 @@ tripForm.addEventListener('submit', (e) => {
 
 //Event Listeners
 tripCostEstimate.addEventListener('click', (e) => {
-  console.log('tripcostestimate listener', e)
   e.preventDefault()
   estimateTripCost(e)
 })
@@ -49,6 +49,8 @@ signOutButton.addEventListener('click', (e) => {
   e.preventDefault()
   domUpdates.signOut(e)
 })
+
+//Functions
 
 function loadData() {
 	Promise.all([getOneAPIData('travelers', user), getAPIData('trips'), getAPIData('destinations')])
@@ -68,12 +70,12 @@ function displayAllTrips() {
   const travelerTrips = tripRepository.tripsByTraveler(traveler)
   allTripsDisplay.innerHTML = ''
   travelerTrips.forEach(trip => allTripsDisplay.innerHTML += domUpdates.updateTripInfo(trip, destinationRepository))
-}
+  }
 
 function totalSpentThisYear() {
   const totalCostofTripsAnnually = tripRepository.yearlyCost(destinationRepository, traveler)
   totalYearlyCost.innerHTML = domUpdates.updateTotalSpentPerYear(totalCostofTripsAnnually)
-}
+  }
 
 function addNewTrip(event) {
   const newTrip = {
@@ -97,23 +99,21 @@ function addNewTrip(event) {
               return errorNotice.innerText = error.message
           }
       });
-
   tripRepository.trips.push(newTrip)
 
   event.target.reset();
-}
+  }
 
 function estimateTripCost() {
   const destinationID = destinationRepository.findDestByName(destinationsInput.value)
   const flightCost = destinationRepository.findFlightCost(destinationID) * (numTravelersInput.value)
   const lodgingCost = destinationRepository.findLodgingCost(destinationID) * (numTravelersInput.value) * (durationInput.value)
   const total = Math.round((flightCost + lodgingCost) * 1.1);
-  if (flightCost && lodgingCost) {   
+    if (flightCost && lodgingCost && dateInput.value) {   
   domUpdates.estimatedTripCost(total)
-  } else
-    document.getElementById('tripCostEstimate').innerHTML = "Please enter trip duration and number of guests."
-}
-
+    } else
+    document.getElementById('tripCostEstimate').innerHTML = "Please enter trip date, duration, and number of guests."
+  }
 
 function login(e) {
   document.getElementById('userNameError').innerHTML = ""

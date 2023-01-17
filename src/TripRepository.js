@@ -27,6 +27,7 @@ class TripRepository {
   }, 0)
   return Math.round(totalCostofTripsAnnually)
   }
+  
 }
 
 
